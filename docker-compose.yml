@@ -123,38 +123,38 @@ services:
       - rabbit
     restart: "no"
 
-  # video-storage:
-  #   image: azure-storage
-  #   build: 
-  #     context: ./azure-storage
-  #     dockerfile: Dockerfile-dev
-  #   container_name: video-storage
-  #   volumes:
-  #     - /tmp/azure-storage/npm-cache:/root/.npm:z
-  #     - ./azure-storage/src:/usr/src/app/src:z
-  #   ports:
-  #    - "4005:80"
-  #   environment:
-  #     - PORT=80
-  #     - STORAGE_ACCOUNT_NAME=<your-storage-account>
-  #     - STORAGE_ACCESS_KEY=<your-access-key>
-  #   restart: "no"
-
   video-storage:
-    image: mock-storage
+    image: azure-storage
     build: 
-      context: ./mock-storage
+      context: ./azure-storage
       dockerfile: Dockerfile-dev
     container_name: video-storage
     volumes:
-      - /tmp/mock-storage/npm-cache:/root/.npm:z
-      - ./mock-storage/src:/usr/src/app/src:z
-      - ./mock-storage/storage:/usr/src/app/storage:z
+      - /tmp/azure-storage/npm-cache:/root/.npm:z
+      - ./azure-storage/src:/usr/src/app/src:z
     ports:
      - "4005:80"
     environment:
       - PORT=80
+      - STORAGE_ACCOUNT_NAME=<your-storage-account>
+      - STORAGE_ACCESS_KEY=<your-access-key>
     restart: "no"
+
+  # video-storage:
+  #   image: mock-storage
+  #   build: 
+  #     context: ./mock-storage
+  #     dockerfile: Dockerfile-dev
+  #   container_name: video-storage
+  #   volumes:
+  #     - /tmp/mock-storage/npm-cache:/root/.npm:z
+  #     - ./mock-storage/src:/usr/src/app/src:z
+  #     - ./mock-storage/storage:/usr/src/app/storage:z
+  #   ports:
+  #    - "4005:80"
+  #   environment:
+  #     - PORT=80
+  #   restart: "no"
 
   metadata:
     image: metadata

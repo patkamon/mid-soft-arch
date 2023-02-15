@@ -1,8 +1,8 @@
 variable app_name {
-    default = "flixtube"
+    default = "flixtubeuniq"
 }
 variable location {
-  default = "West US"
+  default = "Southeast Asia"
 }
 
 variable admin_username {

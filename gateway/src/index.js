@@ -147,36 +147,39 @@ function setupHandlers(app) {
       .end();
   });
 
-  // app.get("/ads", (req, res) => {
-  //   http
-  //     .request(
-  //       // Get a particular video from the metadata microservice.
-  //       {
-  //         host: `ads`,
-  //         path: `/ads`,
-  //         method: `GET`,
-  //       },
-  //       (response) => {
-  //         let data = "";
-  //         response.on("data", (chunk) => {
-  //           data += chunk;
-  //         });
+  app.get("/ads", (req, res) => {
+    http
+      .request(
+        // Get a particular video from the metadata microservice.
+        {
+          host: `ads`,
+          path: `/ads`,
+          method: `GET`,
+        },
+        (response) => {
+          let data = "";
+          response.on("data", (chunk) => {
+            data += chunk;
+          });
 
-  //         response.on("end", () => {
-  //           // Renders the video for display in the browser.
-  //           let ads_star = data;
-  //           res.render("ads", { ads_star: JSON.parse(ads_star) });
-  //         });
+          response.on("end", () => {
+            // Renders the video for display in the browser.
+            let ads_star = data;
+            res.render("ads", {
+              ads: JSON.parse(ads_star).ads,
+              link: JSON.parse(ads_star).link,
+            });
+          });
 
-  //         response.on("error", (err) => {
-  //           console.error(`Failed to get details for video ${ads_star}.`);
-  //           console.error(err || `Status code: ${response.statusCode}`);
-  //           res.sendStatus(500);
-  //         });
-  //       }
-  //     )
-  //     .end();
-  // });
+          response.on("error", (err) => {
+            console.error(`Failed to get details for video ${ads_star}.`);
+            console.error(err || `Status code: ${response.statusCode}`);
+            res.sendStatus(500);
+          });
+        }
+      )
+      .end();
+  });
 
   //
   // Web page to upload a new video.
@@ -302,16 +305,6 @@ function setupHandlers(app) {
 
     req.pipe(forwardRequest);
   });
-
-  // app.get("/:pageCalled", function (req, res) {
-  //   res.on("end", () => {
-  //     // Renders the history for display in the browser.
-  //     res.render("ads", { ads_star: "ADS AGODA FROM STAR" });
-  //   });
-  //   res.render("hello");
-  //   res.send("*****");
-  //   console.log("****");
-  // });
 
   //
   // HTTP POST API to upload video from the user's browser.
